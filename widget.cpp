@@ -48,8 +48,10 @@ void Widget::on_searchButton_clicked()
 {
     QString phoneNumber = ui->phoneNumberLine->text();
     QString name = ui->nameLine->text();
+    bool isNumberGiven = phoneNumber.isEmpty(); // true for empty, false if something is typed
+    bool isNameGiven = name.isEmpty();
 
-    if (phoneNumber == "" && name != "")
+    if (!isNameGiven && isNumberGiven)
     {
         QString searchQuery = "SELECT * FROM contacts WHERE name LIKE \"%" + name + "%\"";
         QSqlQuery query(searchQuery);
@@ -61,7 +63,7 @@ void Widget::on_searchButton_clicked()
                                                     query.value(2).toString() ));
         }
     }
-    else if (name == "" && phoneNumber != "")
+    else if (isNameGiven && !isNumberGiven)
     {
         QString searchQuery = "SELECT * FROM contacts WHERE phone LIKE \"%" + phoneNumber + "%\"";
         QSqlQuery query(searchQuery);
@@ -73,7 +75,7 @@ void Widget::on_searchButton_clicked()
                                                     query.value(2).toString() ));
         }
     }
-    else if (name != "" && phoneNumber != "")
+    else if (!isNameGiven && !isNumberGiven)
     {
         QString searchQuery = "SELECT * FROM contacts WHERE phone LIKE \"%" + phoneNumber
                                                     + "%\"AND name LIKE \"%" + name + "%\"";
