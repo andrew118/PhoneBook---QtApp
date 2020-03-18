@@ -18,13 +18,8 @@ Widget::~Widget()
 
 void Widget::on_showAllButton_clicked()
 {
-    QSqlQuery query("SELECT * FROM contacts");
-    while(query.next())
-    {
-        ui->listWidget->addItem(new QListWidgetItem(query.value(0).toString() + " " +
-                                                    query.value(1).toString() + " " +
-                                                    query.value(2).toString() ));
-    }
+    QString showAllQuery("SELECT * FROM contacts");
+    showResults(showAllQuery);
 }
 
 void Widget::on_addButton_clicked()
@@ -32,7 +27,7 @@ void Widget::on_addButton_clicked()
     QString phoneNumber = ui->phoneNumberLine->text();
     QString name = ui->nameLine->text();
 
-    if (phoneNumber == "" || name == "")
+    if (phoneNumber.isEmpty() || name.isEmpty())
     {
         qDebug() << "czegoś brak";
         return;
@@ -46,45 +41,28 @@ void Widget::on_addButton_clicked()
 
 void Widget::on_searchButton_clicked()
 {
+    QString searchQuery = "SELECT * FROM contacts WHERE";
     QString phoneNumber = ui->phoneNumberLine->text();
     QString name = ui->nameLine->text();
+    bool isNumberGiven = phoneNumber.isEmpty();     // true for empty, false if not
+    bool isNameGiven = name.isEmpty();
 
-    if (phoneNumber == "" && name != "")
+    if (!isNameGiven && isNumberGiven)
     {
-        QString searchQuery = "SELECT * FROM contacts WHERE name LIKE \"%" + name + "%\"";
-        QSqlQuery query(searchQuery);
-
-        while(query.next())
-        {
-        ui->listWidget->addItem(new QListWidgetItem(query.value(0).toString() + " " +
-                                                    query.value(1).toString() + " " +
-                                                    query.value(2).toString() ));
-        }
+        searchQuery += " name LIKE \"%" + name + "%\"";
+        showResults(searchQuery);
     }
-    else if (name == "" && phoneNumber != "")
+    else if (isNameGiven && !isNumberGiven)
     {
-        QString searchQuery = "SELECT * FROM contacts WHERE phone LIKE \"%" + phoneNumber + "%\"";
-        QSqlQuery query(searchQuery);
+        searchQuery += " phone LIKE \"%" + phoneNumber + "%\"";
+        showResults(searchQuery);
 
-        while(query.next())
-        {
-        ui->listWidget->addItem(new QListWidgetItem(query.value(0).toString() + " " +
-                                                    query.value(1).toString() + " " +
-                                                    query.value(2).toString() ));
-        }
+
     }
-    else if (name != "" && phoneNumber != "")
+    else if (!isNameGiven && !isNumberGiven)
     {
-        QString searchQuery = "SELECT * FROM contacts WHERE phone LIKE \"%" + phoneNumber
-                                                    + "%\"AND name LIKE \"%" + name + "%\"";
-        QSqlQuery query(searchQuery);
-
-        while(query.next())
-        {
-        ui->listWidget->addItem(new QListWidgetItem(query.value(0).toString() + " " +
-                                                    query.value(1).toString() + " " +
-                                                    query.value(2).toString() ));
-        }
+        searchQuery += " phone LIKE \"%" + phoneNumber + "%\" AND name LIKE \"%" + name + "%\"";
+        showResults(searchQuery);
     }
     else
     {
@@ -92,3 +70,17 @@ void Widget::on_searchButton_clicked()
         return;
     }
 }
+
+void Widget::showResults(QString dbQuery)
+{
+    ui->listWidget->clear();
+    QSqlQuery query(dbQuery);
+
+    while(query.next())
+    {
+    ui->listWidget->addItem(new QListWidgetItem(query.value(0).toString() + " " +
+                                                query.value(1).toString() + " " +
+                                                query.value(2).toString() ));
+    }
+}
+

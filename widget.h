@@ -29,5 +29,6 @@ private:
     Ui::Widget *ui;
 
     ConnectionDB *db;
+    void showResults(QString dbQuery);
 };
 #endif // WIDGET_H
