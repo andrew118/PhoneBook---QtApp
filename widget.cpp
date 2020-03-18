@@ -18,13 +18,8 @@ Widget::~Widget()
 
 void Widget::on_showAllButton_clicked()
 {
-    QSqlQuery query("SELECT * FROM contacts");
-    while(query.next())
-    {
-        ui->listWidget->addItem(new QListWidgetItem(query.value(0).toString() + " " +
-                                                    query.value(1).toString() + " " +
-                                                    query.value(2).toString() ));
-    }
+    QString showAllQuery("SELECT * FROM contacts");
+    showResults(showAllQuery);
 }
 
 void Widget::on_addButton_clicked()
@@ -32,7 +27,7 @@ void Widget::on_addButton_clicked()
     QString phoneNumber = ui->phoneNumberLine->text();
     QString name = ui->nameLine->text();
 
-    if (phoneNumber == "" || name == "")
+    if (phoneNumber.isEmpty() || name.isEmpty())
     {
         qDebug() << "czegoś brak";
         return;
@@ -49,7 +44,7 @@ void Widget::on_searchButton_clicked()
     QString searchQuery = "SELECT * FROM contacts WHERE";
     QString phoneNumber = ui->phoneNumberLine->text();
     QString name = ui->nameLine->text();
-    bool isNumberGiven = phoneNumber.isEmpty(); // true for empty, false if something is typed
+    bool isNumberGiven = phoneNumber.isEmpty();     // true for empty, false if not
     bool isNameGiven = name.isEmpty();
 
     if (!isNameGiven && isNumberGiven)
@@ -78,6 +73,7 @@ void Widget::on_searchButton_clicked()
 
 void Widget::showResults(QString dbQuery)
 {
+    ui->listWidget->clear();
     QSqlQuery query(dbQuery);
 
     while(query.next())
