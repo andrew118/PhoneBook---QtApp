@@ -128,16 +128,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableView" name="tableView">
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <attribute name="horizontalHeaderVisible">
-      <bool>true</bool>
-     </attribute>
-    </widget>
+    <widget class="QListWidget" name="listWidget"/>
    </item>
   </layout>
  </widget>

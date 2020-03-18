@@ -2,6 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QSqlQuery>
 
 #include "connectiondb.h"
 
@@ -17,9 +18,16 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+private slots:
+    void on_showAllButton_clicked();
+
+    void on_addButton_clicked();
+
+    void on_searchButton_clicked();
+
 private:
     Ui::Widget *ui;
 
-
+    ConnectionDB *db;
 };
 #endif // WIDGET_H
