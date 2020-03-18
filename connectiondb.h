@@ -5,10 +5,10 @@
 #include <QSqlDatabase>
 #include <QDebug>
 
-class connectionDB
+class ConnectionDB
 {
 public:
-    connectionDB();
+    ConnectionDB();
 
 private:
     QSqlDatabase db;
@@ -16,6 +16,7 @@ private:
     const QString HOST = "localhost";
     const QString PASSWORD = "";
     const QString USER = "root";
+    const QString DB_NAME = "phonebook";
     const int PORT = 3306;
 
     void connectDB();

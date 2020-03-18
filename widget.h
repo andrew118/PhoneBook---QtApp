@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "connectiondb.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
 QT_END_NAMESPACE
@@ -17,5 +19,7 @@ public:
 
 private:
     Ui::Widget *ui;
+
+
 };
 #endif // WIDGET_H

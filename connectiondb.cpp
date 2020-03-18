@@ -1,17 +1,19 @@
 #include "connectiondb.h"
 
-connectionDB::connectionDB()
+ConnectionDB::ConnectionDB()
 {
     connectDB();
 }
 
-void connectionDB::connectDB()
+void ConnectionDB::connectDB()
 {
     db = QSqlDatabase::addDatabase(DRIVER);
-    db.setDatabaseName(HOST);
+    db.setHostName(HOST);
     db.setUserName(USER);
     db.setPassword(PASSWORD);
     db.setPort(PORT);
+    db.setDatabaseName(DB_NAME);
 
     qDebug() << "DB status: " << db.open();
+    qDebug() << db.lastError();
 }

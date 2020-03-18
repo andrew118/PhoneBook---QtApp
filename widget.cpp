@@ -8,6 +8,7 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
     ui->tableView->horizontalHeader()->show();
 
+    ConnectionDB db;
 }
 
 Widget::~Widget()
