@@ -21,6 +21,8 @@ public:
 private slots:
     void on_showAllButton_clicked();
 
+    void on_addButton_clicked();
+
 private:
     Ui::Widget *ui;
 

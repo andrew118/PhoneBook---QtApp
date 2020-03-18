@@ -26,3 +26,21 @@ void Widget::on_showAllButton_clicked()
                                                     query.value(2).toString() ));
     }
 }
+
+void Widget::on_addButton_clicked()
+{
+    QString phoneNumber = ui->phoneNumberLine->text();
+    QString name = ui->nameLine->text();
+
+    if (phoneNumber == "" || name == "")
+    {
+        qDebug() << "czegoś brak";
+        return;
+    }
+    else
+    {
+        QString insertQuery = "INSERT INTO contacts VALUES (NULL, \"" + name + "\", \"" + phoneNumber + "\")";
+        qDebug() << insertQuery;
+        QSqlQuery query(insertQuery);
+    }
+}
