@@ -6,9 +6,8 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    ui->tableView->horizontalHeader()->show();
 
-    ConnectionDB db;
+    db = new ConnectionDB();
 }
 
 Widget::~Widget()
@@ -16,3 +15,14 @@ Widget::~Widget()
     delete ui;
 }
 
+
+void Widget::on_showAllButton_clicked()
+{
+    QSqlQuery query("SELECT * FROM contacts");
+    while(query.next())
+    {
+        ui->listWidget->addItem(new QListWidgetItem(query.value(0).toString() + " " +
+                                                    query.value(1).toString() + " " +
+                                                    query.value(2).toString() ));
+    }
+}
