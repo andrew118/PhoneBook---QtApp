@@ -55,38 +55,19 @@ void Widget::on_searchButton_clicked()
     if (!isNameGiven && isNumberGiven)
     {
         searchQuery += " name LIKE \"%" + name + "%\"";
-        QSqlQuery query(searchQuery);
-
-        while(query.next())
-        {
-        ui->listWidget->addItem(new QListWidgetItem(query.value(0).toString() + " " +
-                                                    query.value(1).toString() + " " +
-                                                    query.value(2).toString() ));
-        }
+        showResults(searchQuery);
     }
     else if (isNameGiven && !isNumberGiven)
     {
         searchQuery += " phone LIKE \"%" + phoneNumber + "%\"";
-        QSqlQuery query(searchQuery);
+        showResults(searchQuery);
 
-        while(query.next())
-        {
-        ui->listWidget->addItem(new QListWidgetItem(query.value(0).toString() + " " +
-                                                    query.value(1).toString() + " " +
-                                                    query.value(2).toString() ));
-        }
+
     }
     else if (!isNameGiven && !isNumberGiven)
     {
         searchQuery += " phone LIKE \"%" + phoneNumber + "%\" AND name LIKE \"%" + name + "%\"";
-        QSqlQuery query(searchQuery);
-
-        while(query.next())
-        {
-        ui->listWidget->addItem(new QListWidgetItem(query.value(0).toString() + " " +
-                                                    query.value(1).toString() + " " +
-                                                    query.value(2).toString() ));
-        }
+        showResults(searchQuery);
     }
     else
     {
@@ -94,3 +75,16 @@ void Widget::on_searchButton_clicked()
         return;
     }
 }
+
+void Widget::showResults(QString dbQuery)
+{
+    QSqlQuery query(dbQuery);
+
+    while(query.next())
+    {
+    ui->listWidget->addItem(new QListWidgetItem(query.value(0).toString() + " " +
+                                                query.value(1).toString() + " " +
+                                                query.value(2).toString() ));
+    }
+}
+
