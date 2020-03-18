@@ -1,0 +1,15 @@
+#ifndef CONNECTIONDB_H
+#define CONNECTIONDB_H
+
+#include <QtSql>
+
+class connectionDB
+{
+public:
+    connectionDB();
+    
+private:
+    void connectDB();
+};
+
+#endif // CONNECTIONDB_H
