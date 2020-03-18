@@ -14,6 +14,18 @@ void ConnectionDB::connectDB()
     db.setPort(PORT);
     db.setDatabaseName(DB_NAME);
 
-    qDebug() << "DB status: " << db.open();
-    qDebug() << db.lastError();
+    try {
+        bool connectedOk = db.open();
+        if (connectedOk)
+            qDebug() << "Udało się połączyć z bazą danych";
+        else
+        {
+            throw (connectedOk);
+        }
+    } catch (bool error) {
+        qDebug() << "Nie można się połączyć z bazą danych!";
+        //qDebug() << db.lastError();
+    }
+
+
 }
